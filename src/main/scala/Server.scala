@@ -25,9 +25,9 @@ object Server {
   }}
 
   def main(args: Array[String]): Unit = args.toList match {
-    case id :: pw :: Nil =>
+    case port :: id :: pw :: Nil =>
       Login(id, pw)
-      unfiltered.jetty.Server.http(80).plan(app).run()
+      unfiltered.jetty.Server.http(port.toInt).plan(app).run()
     case _ =>
   }
 }
