@@ -5,7 +5,7 @@ import unfiltered.response._
 object Static {
   def apply(path: List[String]) =
     try {
-      Ok ~> ResponseString(Source.fromFile(s"src/resources/${path.mkString("/")}", "UTF-8").mkString)
+      Ok ~> ResponseString(Source.fromFile(s"src/resources/static/${path.mkString("/")}", "UTF-8").mkString)
     } catch {
       case _: Exception => Pass
     }

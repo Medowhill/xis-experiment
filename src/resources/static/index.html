@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>xIS Experiment</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./index.js"></script>
+    <script>
+    </script>
+  </head>
+  <body>
+    <div id="ldiv">
+      <h3>설명... 어쩌고 저쩌고...</h3>
+      <a href="https://portal.kaist.ac.kr/portal/" target="_blank">KAIST Portal 로그인이 되어있는 지 확인하세요.</a>
+      <h2>지급받은 ID를 입력하세요:</h2>
+      <input id="uid"></input>
+      <button id="lgin" onclick="login()">실험 시작</button>
+    </div>
+    <div id="qdiv" hidden>
+      <h2 id="qnum">0<h2>
+      <h2 id="ques"></h2>
+      <h3 id="expl"></h3>
+      <p>검색을 통해 답을 찾을 수 없다고 생각하면 -을 입력하고 답을 제출하세요. 반드시 답을 찾은 게시글의 링크를 입력하세요.</p>
+      <h4>정답:</h4>
+      <input id="answ"></input>
+      <h4>링크:</h4>
+      <input id="link"></input>
+      <button id="subm" onclick="submit()">제출</button>
+      <h4>검색어:</h4>
+      <input id="keyw"></input>
+      <button id="sear" onclick="search()">검색하기</button>
+      <h4>검색 페이지:</h4>
+      <p id="page">1<p>
+      <button id="prev" onclick="prev()" disabled>이전</button>
+      <button id="next" onclick="next()" disabled>다음</button>
+      <div id="main"></div>
+    </div>
+    <div id="fdiv" hidden>
+      <h3>모든 문항이 완료되었습니다. 수고 많으셨습니다.</h3>
+    </div>
+  </body>
+</html>
