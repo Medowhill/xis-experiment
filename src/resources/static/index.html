@@ -2,41 +2,93 @@
   <head>
     <meta charset="utf-8">
     <title>xIS Experiment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="./index.js"></script>
-    <script>
-    </script>
+    <style>
+    html, body, #qdiv, #qdiv-row, #main-outer { height: 100% }
+    #main {
+      position: relative; 
+      padding: 10px;
+      height: 100%;
+      overflow: auto
+    }
+    .card {
+      margin-bottom: 5px
+    }
+    </style>
   </head>
   <body>
-    <div id="ldiv">
-      <h3>설명... 어쩌고 저쩌고...</h3>
-      <a href="https://portal.kaist.ac.kr/portal/" target="_blank">KAIST Portal 로그인이 되어있는 지 확인하세요.</a>
-      <h2>지급받은 ID를 입력하세요:</h2>
-      <input id="uid"></input>
-      <button id="lgin" onclick="login()">실험 시작</button>
+    <div id="ldiv" class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          <h2>CS408E - Projcet xIS: eXtended Information Search</h2>
+          <h3>Search engine user experiments</h3>
+          <p>주어지는 문제에 대한 정답을 검색을 통해서 찾은 뒤 정답과 정답을 찾은 Portal 게시글의 링크를 입력하고 제출 버튼을 누르세요.</p>
+          <p>검색 결과는 입력한 검색어에 대하여 Portal 게시글로부터 찾은 결과입니다.</p>
+          <p>일부 문제는 의도적으로 출제된 Portal 게시글로부터 정보를 얻을 수 없는 문제이며, 답을 찾을 수 없다고 판단한 경우 정답에는 -를 입력하고, 링크는 공란으로 제출하세요.</p>
+          <p>네트워크 연결이 안정적인 상태에서 실험을 진행하세요. 모바일 기기가 아닌 데스크탑 또는 랩탑을 사용하여 진행하세요.</p>
+          <p>웹 브라우저의 새로고침과 뒤로가기 버튼을 절대 누르지 마세요. 눌러서 사이트 초기화면으로 돌아간 경우, 실험 진행을 중단하고 실험 관리자에게 알려주세요.</p>
+          <p>총 50문항이 준비되어 있으며, 0번 문제는 연습 문제로, 검색이 잘 되는 지 천천히 확인해보세요.</p>
+          <a href="https://portal.kaist.ac.kr/portal/" target="_blank">KAIST Portal 로그인이 되어있는 지 확인하세요.</a>
+          <h4>위의 설명을 모두 자세히 읽었다면, 아래에 지급받은 ID를 입력하고 실험을 시작하세요.</h4>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">ID</span>
+            </div>
+            <input id="uid" type="text" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <div class="input-group-append">
+              <button id="lgin" onclick="login()" class="btn btn-outline-primary" type="button">실험 시작</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="qdiv" hidden>
-      <h2 id="qnum">0<h2>
-      <h2 id="ques"></h2>
-      <h3 id="expl"></h3>
-      <p>검색을 통해 답을 찾을 수 없다고 생각하면 -을 입력하고 답을 제출하세요. 반드시 답을 찾은 게시글의 링크를 입력하세요.</p>
-      <h4>정답:</h4>
-      <input id="answ"></input>
-      <h4>링크:</h4>
-      <input id="link"></input>
-      <button id="subm" onclick="submit()">제출</button>
-      <h4>검색어:</h4>
-      <input id="keyw"></input>
-      <button id="sear" onclick="search()">검색하기</button>
-      <h4>검색 페이지:</h4>
-      <p id="page">1<p>
-      <button id="prev" onclick="prev()" disabled>이전</button>
-      <button id="next" onclick="next()" disabled>다음</button>
-      <div id="main"></div>
+    <div id="qdiv" class="container-fluid" hidden>
+      <div id="qdiv-row" class="row">
+        <div class="col-sm">
+          <h2 id="qnum">0<h2>
+          <h2 id="ques"></h2>
+          <h4 id="expl"></h4>
+          <p>답을 찾은 경우, 반드시 답을 찾은 게시글의 링크를 입력하세요.</p>
+          <p>검색을 통해 답을 찾을 수 없다고 생각하면 정답은 -, 링크는 공란으로 답을 제출하세요.</p>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">정답</span>
+            </div>
+            <input id="answ" type="text" class="form-control" aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">링크</span>
+            </div>
+            <input id="link" type="text" class="form-control" aria-describedby="inputGroup-sizing-default" placeholder="https://portal.kaist.ac.kr/ennotice/[bid]/[aid]">
+            <div class="input-group-append">
+              <button id="subm" onclick="submit()" class="btn btn-outline-primary" type="button">제출</button>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span id="page" class="input-group-text" id="inputGroup-sizing-default">-</span>
+            </div>
+            <input id="keyw" type="text" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <div class="input-group-append">
+              <button id="sear" onclick="search()" class="btn btn-outline-primary" type="button">검색</button>
+              <button id="prev" onclick="prev()" type="button" class="btn btn-outline-secondary" disabled>이전</button>
+              <button id="next" onclick="next()" type="button" class="btn btn-outline-secondary" disabled>다음</button>
+            </div>
+          </div>
+        </div>
+        <div id="main-outer" class="col-sm">
+          <div id="main"></div>
+        </div>
+      </div>
     </div>
     <div id="fdiv" hidden>
-      <h3>모든 문항이 완료되었습니다. 수고 많으셨습니다.</h3>
+      <h3>모든 문항이 완료되었습니다. 수고 많으셨습니다. 창을 닫으셔도 좋습니다.</h3>
     </div>
   </body>
 </html>

@@ -19,7 +19,7 @@ object SearchUtil {
           case (s, p) =>
             val t = s >> allText("a")
             val l = s >> attr("href")("a")
-            """<a href="""" + l + """" target="_blank">""" + t + """</a><p>""" + p + """</p>"""
+            """<div class="card"><div class="card-body"><a href="""" + l + """" target="_blank">""" + t + """</a><p>""" + p + """</p></div></div>"""
         }.mkString("")
       case Nil => ""
     }

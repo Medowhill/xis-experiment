@@ -33,6 +33,8 @@ function login() {
   if (id !== "") {
     $('#ldiv').prop('hidden', true)
     $('#qdiv').prop('hidden', false)
+    $('#keyw')[0].addEventListener("keyup", e => { if (e.keyCode === 13) search() })
+    $('#link')[0].addEventListener("keyup", e => { if (e.keyCode === 13) submit() })
     axios.get('/api/question', {params: {qnum: 0}}).then(show)
   }
 }
@@ -73,12 +75,14 @@ function submit() {
   var qnum = currq()
   var ans = encodeURIComponent($('#answ').val())
   var link = encodeURIComponent($('#link').val())
-  if (ans !== "" && (ans === "-" || link !== "")) {
+  if (ans !== "" && (ans === "-" || link.startsWith("https://portal.kaist.ac.kr/ennotice/"))) {
     disable()
     clear()
     $('#qnum').html(qnum + 1)
     axios.get('/api/question', {params: {qnum: qnum + 1}}).then(show)
     axios.get('/api/submit', {params: {id: id, qnum: qnum, ans: ans, link: link}})
+  } else {
+    alert('정답과 링크를 바르게 입력하세요.')
   }
 }
 
